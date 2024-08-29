@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "stringUtil.h"
 
@@ -43,6 +44,17 @@ int main(int argc, char* argv[]){
             }
 
             write(STDOUT,&command[commandIndex], 1); //write a newline
+        }
+
+        //pwd command
+        else if( stringRangeCmp(command, "pwd", commandIndex, 3) ){
+            char* currDir = getenv("PWD");
+            while(*currDir != '\0'){
+                write(STDOUT, currDir, 1);
+                currDir++;
+            }
+
+            write(STDOUT, "\n", 1);
         }
 
 
