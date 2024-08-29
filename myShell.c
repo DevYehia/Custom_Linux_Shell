@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include <stdlib.h>
+
 
 #include "stringUtil.h"
 
@@ -8,7 +8,7 @@
 #define STDOUT 1
 #define STDERR 2
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[], char* envp[]){
     char command[COMMAND_SIZE];
     int commandIndex = 0;
     char commandChar;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
         //find out type of command
 
         //echo command
-        if(stringRangeCmp(command, "echo", commandIndex, 4)){
+        if(stringRangeCmp(command, "echo", commandIndex)){
 
             //skip spaces after the command
             commandIndex+=4;
@@ -47,8 +47,8 @@ int main(int argc, char* argv[]){
         }
 
         //pwd command
-        else if( stringRangeCmp(command, "pwd", commandIndex, 3) ){
-            char* currDir = getenv("PWD");
+        else if( stringRangeCmp(command, "pwd", commandIndex) ){
+            char* currDir = myGetEnv(envp, "PWD");
             while(*currDir != '\0'){
                 write(STDOUT, currDir, 1);
                 currDir++;
