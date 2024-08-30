@@ -1,64 +1,50 @@
 #include <unistd.h>
-
-
 #include "stringUtil.h"
+#include "defines.h"
+#include "commands.h"
 
-#define COMMAND_SIZE 1024
-#define STDIN 0
-#define STDOUT 1
-#define STDERR 2
-
-int main(int argc, char* argv[], char* envp[]){
+int main(int argc, char *argv[], char *envp[])
+{
     char command[COMMAND_SIZE];
     int commandIndex = 0;
     char commandChar;
 
-    //shell's infinite loop
-    while(1){
-
+    // shell's infinite loop
+    while (1)
+    {
         commandIndex = 0;
-        //read command character by character till find a newline
-        do{
-            read(STDIN,&commandChar,1);
+        // read command character by character till find a newline
+        do
+        {
+            read(STDIN, &commandChar, 1);
             command[commandIndex] = commandChar;
             commandIndex++;
-        }while(commandChar != '\n');
+        } while (commandChar != '\n');
         commandIndex = 0;
 
-        //skip starting spaces
-        while(command[commandIndex] == ' ')commandIndex++;
+        // skip starting spaces
+        while (command[commandIndex] == ' ')
+            commandIndex++;
 
+        // find out type of command
 
-        //find out type of command
+        // echo command
+        if (stringRangeCmp(command, "echo", commandIndex))
+        {
 
-        //echo command
-        if(stringRangeCmp(command, "echo", commandIndex)){
-
-            //skip spaces after the command
-            commandIndex+=4;
-            while(command[commandIndex] == ' ')commandIndex++;
-
-            while(command[commandIndex] != '\n'){
-                write(STDOUT,&command[commandIndex], 1);
+            // skip spaces after the command
+            commandIndex += 4;
+            while (command[commandIndex] == ' ')
                 commandIndex++;
-            }
 
-            write(STDOUT,&command[commandIndex], 1); //write a newline
+            char *textStartingPoint = command + commandIndex;
+            echo(textStartingPoint);
         }
 
-        //pwd command
-        else if( stringRangeCmp(command, "pwd", commandIndex) ){
-            char* currDir = myGetEnv(envp, "PWD");
-            while(*currDir != '\0'){
-                write(STDOUT, currDir, 1);
-                currDir++;
-            }
-
-            write(STDOUT, "\n", 1);
+        // pwd command
+        else if (stringRangeCmp(command, "pwd", commandIndex))
+        {
+            print_working_directory(envp);
         }
-
-
     }
-
-
 }
