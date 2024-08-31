@@ -46,5 +46,14 @@ int main(int argc, char *argv[], char *envp[])
         {
             print_working_directory(envp);
         }
+
+        else if( stringRangeCmp(command, "ls", commandIndex)){
+
+            //skip ls and spaces
+            commandIndex += 2;
+            while (command[commandIndex] == ' ')
+                commandIndex++;     
+            list(command + commandIndex);       
+        }
     }
 }
