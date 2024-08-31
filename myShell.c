@@ -14,6 +14,7 @@ int main(int argc, char *argv[], char *envp[])
     {
         //print current user
         makeTextMagenta();
+        write(STDOUT, "Quack-", sizeof("Quack-"));
         print_current_user(envp);
         makeTextWhite();
         write(STDOUT, "$ ", 2);
