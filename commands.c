@@ -1,6 +1,5 @@
 #include "commands.h"
 
-
 void echo(char *text)
 {
     while (*text != '\n')
@@ -24,8 +23,22 @@ void print_working_directory(char *env_vars[])
     write(STDOUT, "\n", 1);
 }
 
-
-void print_current_user(char* env_vars[]){
-    char* currUser = myGetEnv(env_vars, "USER");
+void print_current_user(char *env_vars[])
+{
+    char *currUser = myGetEnv(env_vars, "USER");
     myPrintfBlank(currUser);
+}
+
+void meow(char *file_path)
+{
+    int fd = open(file_path, O_RDONLY);
+
+    char c;
+    int bytes_read = read(fd, &c, 1);
+
+    while (bytes_read != 0)
+    {
+        write(STDOUT, &c, 1);
+        bytes_read = read(fd, &c, 1);
+    }
 }
