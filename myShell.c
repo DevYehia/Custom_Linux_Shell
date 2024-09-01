@@ -35,9 +35,11 @@ int main(int argc, char *argv[], char *envp[])
             commandIndex++;
 
         // find out type of command
-
-        // echo command
-        if (stringRangeCmp(command, "echo", commandIndex))
+        if (stringRangeCmp(command, "exit", commandIndex))
+        {
+            break;
+        }
+        else if (stringRangeCmp(command, "echo", commandIndex))
         {
 
             skip_spaces(&commandIndex, command, 4);

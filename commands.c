@@ -33,6 +33,11 @@ void meow(char *file_path)
 {
     int fd = open(file_path, O_RDONLY);
 
+    if (fd < 0)
+    {
+        myPrintfRed("File Not Found.");
+        return;
+    }
     char c;
     int bytes_read = read(fd, &c, 1);
 

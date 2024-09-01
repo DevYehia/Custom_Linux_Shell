@@ -32,6 +32,17 @@ void myPrintfBlank(char *text)
     }
 }
 
+void myPrintfRed(char *text)
+{
+    makeTextRed();
+    while (*text != '\0')
+    {
+        write(STDOUT, text, 1);
+        text++;
+    }
+    makeTextWhite();
+}
+
 void makeTextMagenta(void)
 {
     write(STDOUT, "\e[0;95m", sizeof("\e[0;95m"));
@@ -40,4 +51,9 @@ void makeTextMagenta(void)
 void makeTextWhite(void)
 {
     write(STDOUT, "\e[0m", sizeof("\e[0m"));
+}
+
+void makeTextRed(void)
+{
+    write(STDOUT, "\e[0;31m", sizeof("\e[0;31m"));
 }

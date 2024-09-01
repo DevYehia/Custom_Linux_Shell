@@ -8,9 +8,11 @@
 
 void makeTextMagenta(void);
 void makeTextWhite(void);
+void makeTextRed(void);
 
 void myPrintfBlank(char *text);
 void myPrintfWhite(char *text);
+void myPrintfRed(char *text);
 void myPrintfMagenta(char *text);
 
 #endif
