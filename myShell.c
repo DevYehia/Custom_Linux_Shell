@@ -1,4 +1,6 @@
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "utils/stringUtil.h"
 #include "defines.h"
 #include "commands.h"
@@ -82,6 +84,43 @@ int main(int argc, char *argv[], char *envp[])
             meow(file_path);
             write(STDOUT, "\n", 1);
         }
+
+        //exit command
+        else if(stringRangeCmp(command, "out", commandIndex)){
+            return 0;
+        }
+
+        //check for executable
+        else{
+
+            //make newline to be null character
+            while(command[commandIndex] != '\n'){
+                commandIndex++;
+            }
+            command[commandIndex] = '\0';
+
+            //check if file exists
+            int fd = open(command, O_RDONLY);
+            close(fd);
+            if(fd != -1){ //file exists
+                int pid = fork();
+                if(pid == 0){ //child process
+                    char* childArgv[2];
+                    childArgv[0] = command;
+                    childArgv[1] = 0;
+                    execve(command, childArgv, envp);
+                    return 0;
+                }
+                else{ //parent should wait for child
+                    wait(0);
+                    write(STDOUT,"\n",1);
+                }
+            }
+
+
+
+        }
+
 
         for (int i = 0; i < COMMAND_SIZE; i++)
         {
