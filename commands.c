@@ -47,3 +47,13 @@ void meow(char *file_path)
         bytes_read = read(fd, &c, 1);
     }
 }
+
+int create_files(char *file_paths)
+{
+
+    // handle multiple files
+
+        // Create files
+    int fd = open(file_paths, O_WRONLY | O_CREAT);
+    close(fd);
+}

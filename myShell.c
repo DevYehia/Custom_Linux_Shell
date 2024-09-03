@@ -84,43 +84,65 @@ int main(int argc, char *argv[], char *envp[])
             meow(file_path);
             write(STDOUT, "\n", 1);
         }
+        else if (stringRangeCmp(command, "touch", commandIndex))
+        {
+            skip_spaces(&commandIndex, command, 5);
 
-        //exit command
-        else if(stringRangeCmp(command, "out", commandIndex)){
+            char *file_paths = command + commandIndex;
+            int temp = commandIndex;
+            while (file_paths[temp] != '\n')
+            {
+                temp++;
+                if (file_paths[temp] == ' ')
+                {
+                    file_paths[temp] = '\0';
+                }
+            }
+            file_paths[temp] = '\n';
+
+            create_files(file_paths);
+
+            // myPrintfBlank(file_paths);
+        }
+
+        // exit command
+        else if (stringRangeCmp(command, "out", commandIndex))
+        {
             return 0;
         }
 
-        //check for executable
-        else{
+        // check for executable
+        else
+        {
 
-            //make newline to be null character
-            while(command[commandIndex] != '\n'){
+            // make newline to be null character
+            while (command[commandIndex] != '\n')
+            {
                 commandIndex++;
             }
             command[commandIndex] = '\0';
 
-            //check if file exists
+            // check if file exists
             int fd = open(command, O_RDONLY);
             close(fd);
-            if(fd != -1){ //file exists
+            if (fd != -1)
+            { // file exists
                 int pid = fork();
-                if(pid == 0){ //child process
-                    char* childArgv[2];
+                if (pid == 0)
+                { // child process
+                    char *childArgv[2];
                     childArgv[0] = command;
                     childArgv[1] = 0;
                     execve(command, childArgv, envp);
                     return 0;
                 }
-                else{ //parent should wait for child
+                else
+                { // parent should wait for child
                     wait(0);
-                    write(STDOUT,"\n",1);
+                    write(STDOUT, "\n", 1);
                 }
             }
-
-
-
         }
-
 
         for (int i = 0; i < COMMAND_SIZE; i++)
         {
