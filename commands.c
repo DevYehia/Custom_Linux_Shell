@@ -54,6 +54,6 @@ int create_files(char *file_paths)
     // handle multiple files
 
         // Create files
-    int fd = open(file_paths, O_WRONLY | O_CREAT);
+    int fd = open(file_paths, O_WRONLY | O_CREAT, 00750);
     close(fd);
 }

@@ -5,6 +5,7 @@
 #include "defines.h"
 #include "commands.h"
 #include "utils/printUtil.h"
+#include <stdio.h>
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -88,18 +89,18 @@ int main(int argc, char *argv[], char *envp[])
         {
             skip_spaces(&commandIndex, command, 5);
 
+            //get pointer to files
             char *file_paths = command + commandIndex;
-            int temp = commandIndex;
-            while (file_paths[temp] != '\n')
-            {
-                temp++;
-                if (file_paths[temp] == ' ')
-                {
-                    file_paths[temp] = '\0';
-                }
-            }
-            file_paths[temp] = '\n';
+            int file_paths_index = 0;
 
+            //replace newline with null
+            while (file_paths[file_paths_index] != '\n')
+                {
+                    file_paths_index++;
+                }
+            file_paths[file_paths_index] = '\0';
+
+            
             create_files(file_paths);
 
             // myPrintfBlank(file_paths);
