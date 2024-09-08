@@ -7,6 +7,7 @@
 #include "utils/envUtil.h"
 #include <unistd.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -17,5 +18,6 @@ void print_working_directory(char *env_vars[]);
 void print_current_user(char *env_vars[]);
 void meow(char *file_path);
 int create_files(char *file_paths);
+void list(char* dir_path);
 
 #endif

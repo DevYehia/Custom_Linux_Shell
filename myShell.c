@@ -38,10 +38,14 @@ int main(int argc, char *argv[], char *envp[])
             commandIndex++;
 
         // find out type of command
+
+        //exit out of shell
         if (stringRangeCmp(command, "exit", commandIndex))
         {
             break;
         }
+
+        //echo command
         else if (stringRangeCmp(command, "echo", commandIndex))
         {
 
@@ -60,15 +64,28 @@ int main(int argc, char *argv[], char *envp[])
         // ls command (TO DOOOOOOOOO)
         else if (stringRangeCmp(command, "ls", commandIndex))
         {
+
             skip_spaces(&commandIndex, command, 2);
-            // list(command + commandIndex);
+            char* dirPath = command + commandIndex;
+
+            //replace ending newline with null character
+            int tempIndex = 0;
+            while(dirPath[tempIndex] != '\n'){
+                tempIndex++;
+            }            
+            dirPath[tempIndex] = '\0';
+            list(command + commandIndex);
+            write(STDOUT, "\n", 1);
         }
 
+        //get current user (whoami command)
         else if (stringRangeCmp(command, "whoami", commandIndex))
         {
             print_current_user(envp);
             write(STDOUT, "\n", 1);
         }
+
+        //get content of file (meow command)
         else if (stringRangeCmp(command, "meow", commandIndex))
         {
             skip_spaces(&commandIndex, command, 4);
@@ -85,6 +102,8 @@ int main(int argc, char *argv[], char *envp[])
             meow(file_path);
             write(STDOUT, "\n", 1);
         }
+
+        //create a file (touch command)
         else if (stringRangeCmp(command, "touch", commandIndex))
         {
             skip_spaces(&commandIndex, command, 5);
@@ -145,6 +164,7 @@ int main(int argc, char *argv[], char *envp[])
             }
         }
 
+        //clear out command buffer
         for (int i = 0; i < COMMAND_SIZE; i++)
         {
             command[i] = 0;
